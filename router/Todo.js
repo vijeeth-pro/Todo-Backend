@@ -9,7 +9,10 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const req_list = await list(req.body).save();
-    res.status(201).json(req_list);
+    res.status(201).json({
+      success: true,
+      req_list,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -34,7 +37,7 @@ router.delete("/:id", id, async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  if (req.body.todo !== undefined && req.body.name !== undefined) {
+  if (req.body.todo !== undefined) {
     list.updateOne(
       { _id: req.params.id },
       { $set: req.body },
